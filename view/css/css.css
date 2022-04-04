@@ -118,3 +118,6 @@
     padding: 5px;
     border:double;
 }
+.round{
+    border-radius: 15px;
+}
