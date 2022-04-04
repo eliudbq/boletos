@@ -1,3 +1,4 @@
+<script src="view\js\user\user.js"></script>
 <div class="column20 content-align-center">
     <div class="column10 fenced contenedor_primary">
         DATOS DE INICIO DE SESIÓN<br>
@@ -9,6 +10,10 @@
             PASSWORD
             <input type="password" name="valpassword" class="campo1" required/>
         </label>
-        <button class="button button_prymary"><u>A</u>ceptar</button>
+        <label class="required-mark column20 content-align-left label_primary">
+            PASSWORD
+            <input type="range" name="valrango" class="campo1" min="10" max="50" required/>
+        </label>
+        <button type="button" class="button button_prymary" id="login"><u>A</u>ceptar</button>
     </div>
 </div>

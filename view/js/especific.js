@@ -21,5 +21,5 @@ function reloj(){
 }
 $(document).ready(function(){
   reloj();
-   
 });
+
