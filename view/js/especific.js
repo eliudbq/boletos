@@ -16,10 +16,20 @@ function reloj(){
     if (month <= 9)month = `0${month}`;
     if (minutes <= 9)minutes = `0${minutes}`;
     if (seconds <= 9)seconds = `0${seconds}`;
-    $("time").html(`${day}/${month}/${year} ${hours}:${minutes}:${seconds}:${dn}<br>`);
+    let name_day="";
+    if(Digital.getDay() == 0){ name_day = "Domingo";  }
+    if(Digital.getDay() == 1){ name_day = "Lunes";    }
+    if(Digital.getDay() == 2){ name_day = "Martes";   }
+    if(Digital.getDay() == 3){ name_day = "Miercoles";}
+    if(Digital.getDay() == 4){ name_day = "Jueves";   }
+    if(Digital.getDay() == 5){ name_day = "Viernes";  }
+    if(Digital.getDay() == 6){ name_day = "Sabado";   }
+    $("time").html(`${name_day} ${day}/${month}/${year} ${hours}:${minutes}:${seconds}:${dn}<br>`);
     setInterval("reloj()", 1000);
 }
 $(document).ready(function(){
   reloj();
+  formulario=new Formulario
+  formulario.required_marker();
 });
 

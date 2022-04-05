@@ -1,6 +1,6 @@
     <body>
         <header>
-            <div>EXPRESOS UNIDOS 99.999.999-9</div>
+            <div>EXPRESOS UNIDOS J-09011030-5</div>
             <ul>
                 <li id="display_user">
                     <ul>
