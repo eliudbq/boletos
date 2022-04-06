@@ -3,7 +3,6 @@
 	padding 	: 0px;
 	outline 	: 0PX;
 	color 		: white;
-	font-family : monospace;
 	font-size 	: 16px;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -181,6 +180,18 @@ h5{font-size: 0.8em;}
 h6{font-size: 0.6em;}
 ol, ul, dl{list-style : none;}
 
+.message{
+    position:absolute; right: 0px; top: 20%;
+    display: inline-block; max-width: 50%; max-height: 30%;
+    overflow: auto;
+    background: burlywood;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    color: black;
+    padding: 15px;
+    border: double;
+}
+
 /*{
 	margin: 0px;
 	padding-left: 10px;
@@ -296,19 +307,6 @@ input[type="button"],input[type="reset"],button{
 .bordes {
 	box-shadow: inset 0 0 0 1px black;
 }
-.bordeSuperior {box-shadow: inset 0 1px 0 0px gainsboro}
-.bordeInferior {box-shadow: inset 0 0 0 1px gainsboro}
-.bordeDerecho {box-shadow: inset 0 0 0 1px gainsboro}
-.bordeIzquierdo {box-shadow: 1px 0 0 0 gainsboro}
-.redondos{border-radius: 15px;}
-.redondo-superior{border-top-left-radius    : 20px 20px; border-top-right-radius     : 20px 20px;}
-.redondo-inferior{border-bottom-left-radius : 20px 20px; border-bottom-right-radius  : 20px 20px;}
-.redondo-derecho{border-top-right-radius    : 20px 20px; border-bottom-right-radius  : 20px 20px;}
-.redondo-izquierdo{border-bottom-left-radius: 20px 20px; border-top-left-radius      : 20px 20px;}
-.redondo-izquierdo-inferior{border-bottom-left-radius   : 20px 20px;}
-.redondo-izquierdo-superior{border-top-left-radius      : 20px 20px;}
-.redondo-derecho-inferior{border-bottom-right-radius    : 20px 20px;}
-.redondo-derecho-superior{border-top-right-radius       : 20px 20px;}
 .correr   {left:5px; }
 .correr1  {left:5%;  }
 .correr2  {left:10%; }

@@ -5,63 +5,79 @@ class Formulario{
 			a[i].childNodes[0].nodeValue=`${a[i].childNodes[0].nodeValue}*`;
 		}
 	}
-}
-function clear_data(){
-    data_list =[];
-    return data_list
-}
-function get_data(campos){
-    o=[];
-    $.each(campos, function (i, elem) { 
-        let collection=$(`.${elem}`);
-        $.each(collection, function (ii, con){
-            if ($(con).prop(`name`).substring(0,3)=="val"){
-                o[$(con).prop(`name`).substring(3)]=$(con).val();
-            }else{
-                if ($(con).prop(`name`).substring(0,3)=="chk"){
-                    console.log("construya esta opcion");
-                }else{
-                    if ($(con).prop(`name`).substring(0,3)=="txt"){
-                        console.log("construya esta opcion");
-                    }
-                }
-            }
-        });
-    }); 
-    return o;
-}
-function only_letter(e){
-	key = e.keyCode || e.which;
-	if((key!=32)&&(key<65 || key>90)&&(key<97 || key>122)&&(key!=209)&&(key!=241)&&(key!=225)&&(key!=223)&&(key!=237)&&(key!=243)&&(key!=250)&&(key!=193)&&(key!=201)&&(key!=205)&&(key!=211)&&(key!=218)&&(key!=46)&&(key!=44))
-	{return false;}
-}
-function only_number(n){
-	key = n.keyCode || n.which;
-	if(((key<48) || (key>57))&&(key!=44)){return false;}
-}
-function for_ema(a){//validar el formato para un campo tipo email
-	if(a.value.length>0){
-		c=0; b=a.value.split("");
-		for(i=0;i<b.length;i++){if(b[i]=="@"){c++;}}
-		if((b[b.length-3]==".")||(b[b.length-4]==".")){c++;}
-		if(c!=2){
-			mensaje("debe ingresar un correo électronico valido","observacion");
-			a.focus();
+	get_data(campos){
+		let o=[]; let faltantes=[]
+		$.each(campos, function (i, elem) { 
+			let collection=$(`.${elem}`);
+			$.each(collection, function (ii, con){
+				let req="no";
+				if($(con).hasClass('required')){req="si";}
+				if ($(con).prop(`name`).substring(0,3)=="val"){
+					if(req=="si" && $(con).val()==""){
+						faltantes.push($(con).prop(`name`).substring(3));
+					}else{
+						o[$(con).prop(`name`).substring(3)]=$(con).val();
+					}
+				}else{
+					if ($(con).prop(`name`).substring(0,3)=="chk"){
+						console.log("construya esta opcion");
+					}else{
+						if ($(con).prop(`name`).substring(0,3)=="txt"){
+							console.log("construya esta opcion");
+						}
+					}
+				}
+			});
+		});
+		return {paq:o, err:faltantes};
+	}
+	public_empty(faltantes){
+		if(faltantes!=""){
+			show_message(`debe rellanar los siguientes campos <br> ${faltantes.join("<br>")}`);
+			throw 'elementos vacios';
 		}
 	}
-}
-function minusculas(a){
-	a=a.toLowerCase();
-	return a;
-}
-function mayini(e){//mayuscula inicial de cada palabra en un texto
-	a=e.split("");
-	t="";
-	for(i=0;i<a.length;i++){
-		if((i==0)||(a[i-1]==" ")){t+=(a[i]).toUpperCase();}
-		else{t+=(a[i]).toLowerCase();}
+	show_message(message){
+		$(`body`).append(`<div class='message'>${message}<div/>`);
+		setTimeout(function(){
+			$(`.message`).remove();
+		},4000);
 	}
-	return t;
+}
+class Validate{
+	only_letter(e){
+		key = e.keyCode || e.which;
+		if((key!=32)&&(key<65 || key>90)&&(key<97 || key>122)&&(key!=209)&&(key!=241)&&(key!=225)&&(key!=223)&&(key!=237)&&(key!=243)&&(key!=250)&&(key!=193)&&(key!=201)&&(key!=205)&&(key!=211)&&(key!=218)&&(key!=46)&&(key!=44))
+		{return false;}
+	}
+	only_number(n){
+		key = n.keyCode || n.which;
+		if(((key<48) || (key>57))&&(key!=44)){return false;}
+	}
+	for_ema(a){//validar el formato para un campo tipo email
+		if(a.value.length>0){
+			c=0; b=a.value.split("");
+			for(i=0;i<b.length;i++){if(b[i]=="@"){c++;}}
+			if((b[b.length-3]==".")||(b[b.length-4]==".")){c++;}
+			if(c!=2){
+				mensaje("debe ingresar un correo électronico valido","observacion");
+				a.focus();
+			}
+		}
+	}
+	minusculas(a){
+		a=a.toLowerCase();
+		return a;
+	}
+	mayini(e){//mayuscula inicial de cada palabra en un texto
+		a=e.split("");
+		t="";
+		for(i=0;i<a.length;i++){
+			if((i==0)||(a[i-1]==" ")){t+=(a[i]).toUpperCase();}
+			else{t+=(a[i]).toLowerCase();}
+		}
+		return t;
+	}
 }
 
 
@@ -84,22 +100,6 @@ function mayini(e){//mayuscula inicial de cada palabra en un texto
 	$("article").on({"click":function(){$(this).css({"display":"none"});}});
 });
 class Formulario{
-	marcarRequerido()
-	{
-		let i=0;
-		while($(`.requerir${i}`).length>0)
-		{
-			let a=$(`.requerir${i}`);
-			for(let ii=0;ii<a.length;ii++)
-			{
-				if(a[ii].childNodes[0].nodeValue.trim()!="")
-				{
-					a[ii].childNodes[0].nodeValue=`${a[ii].childNodes[0].nodeValue}*`;
-				}
-			}
-			i++;
-		}
-	}
 	limpiar(camp)//vacia los valores visibles de los campos de texto
 	{
 		if(camp==undefined)
@@ -226,12 +226,6 @@ class Formulario{
 			}
 		}
 		return valor;
-	}
-	mensajeFaltantes(faltantes){
-		if (faltantes!=""){
-			this.mensaje(`debe completar los siguientes campos: ${faltantes}`, `observacion`);
-			throw 'elementos vacios';
-		}
 	}
 	identificar(){
 		$.ajax({
@@ -376,32 +370,6 @@ class Temporales{
 		if(m<fn[1]){edad=edad-1;}
 		if((m==fn[1])&&(d<fn[0])){edad=edad-1;}
 		return edad;
-	}
-	relojDigital(){
-		let momento =new Date();
-		let ds= momento.getDay();
-		let d="";
-		if (ds==0){d="DOMINGO";}
-		else if (ds==1){d="LUNES";}
-		else if (ds==2){d="MARTES";}
-		else if (ds==3){d="MIERCOLES";}
-		else if (ds==4){d="JUEVES";}
-		else if (ds==5){d="VIERNES";}
-		else {d="SABADO";} 
-		let dia 	= momento.getDate();
-		let mes 	= momento.getMonth()+1;
-		let ao 		= momento.getFullYear();
-		let ho 		= momento.getHours();
-		if(ho>12){ho=ho-12; var m="PM";}else{var m="AM"}
-		let mi 		= momento.getMinutes();
-		let sg 		= momento.getSeconds();
-		if(dia<10){dia=`0${dia}`;}
-		if(mes<10){mes=`0${mes}`;}
-		if(mi<10){mi=`0${mi}`;}
-		if(sg<10){sg=`0${sg}`;}
-		if(ho<10){ho=`0${ho}`;}
-		let fecha=`${d} ${dia}/${mes}/${ao} ${ho}:${mi}:${sg}:${m}`;
-		$("#reloj").text(fecha);
 	}
 	fechaBd(fecha){
 		var dia = fecha.split('/').reverse().join('-');
