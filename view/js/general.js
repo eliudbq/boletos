@@ -56,12 +56,10 @@ class Formulario{
 		$.ajax({
 			type: "POST",
 			Cache:false,
-			//contentType: "application/json; charset=utf-8",
-			//dataType: "json",
 			url: `controller/${datos.route}_controller.php`,
 			data: {'action':JSON.stringify(datos.action) ,'claves': JSON.stringify(datos.keys), 'valores': JSON.stringify(datos.written),}
 		}).done(function(resp){
-			console.log(resp);
+			return resp;
 		}).fail(function(jqXHR, textStatus, errorThrown){
 			validate.validate_ajax(jqXHR, textStatus, errorThrown)
 		});
