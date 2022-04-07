@@ -60,8 +60,14 @@ class Formulario{
 			data: {'action':JSON.stringify(datos.action) ,'claves': JSON.stringify(datos.keys), 'valores': JSON.stringify(datos.written),}
 		}).done(function(resp){
 			return resp;
-		}).fail(function(jqXHR, textStatus, errorThrown){
-			validate.validate_ajax(jqXHR, textStatus, errorThrown)
+		}).fail(function(jqXHR, textStatus){
+			if (jqXHR.status === 0) {alert(`Conexión fallida: error en la red 0`);}
+			else if (jqXHR.status == 404) {alert(`controlador o modelo no encontrado 404`);}
+			else if (jqXHR.status == 500) {alert('Error 500 de servidor');}
+			else if (textStatus === 'parsererror') {alert(`falla en el parset jsom`);}
+			else if (textStatus === 'timeout') {alert(`tiempo maximo excedido`);}
+			else if (textStatus === 'abort') {alert('ajax abotado');}
+			else{alert('error desconocido:\n' + jqXHR.responseText);}
 		});
 	}
 }
@@ -98,15 +104,6 @@ class Validate{
 			else{t+=(a[i]).toLowerCase();}
 		}
 		return t;
-	}
-	validate_ajax( jqXHR, textStatus, errorThrown) {
-		if (jqXHR.status === 0) {alert(`Conexión fallida: error en la red 0`);}
-		else if (jqXHR.status == 404) {alert(`controlador o modelo no encontrado 404`);}
-		else if (jqXHR.status == 500) {alert('Error 500 de servidor');}
-		else if (textStatus === 'parsererror') {alert(`falla en el parset jsom`);}
-		else if (textStatus === 'timeout') {alert(`tiempo maximo excedido`);}
-		else if (textStatus === 'abort') {alert('ajax abotado');}
-		else{alert('error desconocido:\n' + jqXHR.responseText);}
 	}
 }
 /*$(function(){
