@@ -25,11 +25,17 @@ function reloj(){
     if(Digital.getDay() == 5){ name_day = "Viernes";  }
     if(Digital.getDay() == 6){ name_day = "Sabado";   }
     $("time").html(`${name_day} ${day}/${month}/${year} ${hours}:${minutes}:${seconds}:${dn}<br>`);
-    setInterval("reloj()", 1000);
+    setInterval(() => {reloj()},1000);
 }
-$(document).ready(function(){
-  reloj();
-  formulario=new Formulario
+$(function(){
+	history.go(1);
+	window.location.hash="no-back-button";
+	window.location.hash="Again-No-back-button";
+	window.onhashchange=window.location.hash="no-back-button";
+	if(history.forward(1)){location.replace(history.forward(1))}
+	reloj();
+	$("input").prop({"autocomplete":"off"});
+  formulario 	=new Formulario;
+  validate    =new Validate;
   formulario.required_marker();
 });
-

@@ -187,9 +187,34 @@ ol, ul, dl{list-style : none;}
     background: burlywood;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    border:1px;
+    border-top: solid;
+    border-left: solid;
+    border-bottom: solid;
+    z-index: 10;
+    max-width: 40%; max-height: 40%;
+}
+.message-head{
+    background: blue;
+    width:90%;
+    float: right;
+    border: none;
+    text-align: center;
+}
+.message-body{
+    overflow: auto;
     color: black;
-    padding: 15px;
-    border: double;
+    padding: 10px;
+}
+.close{
+    background: red;
+    border:none;
+    border-top-left-radius:20px;
+    width:10%;
+    display: inline-block;
+}
+.close::after{
+	content:"X";
 }
 
 /*{
@@ -417,17 +442,7 @@ input[type="button"],input[type="reset"],button{
     height: 8%; width:97%;
 	border-top-left-radius: 20px;
 }
-.modal-cerrar{
-    background: red;
-    border:none;
-    border-top-right-radius:20px;
-    position: absolute;
-    right: 0px; width:3%;
-	height: 8%;
-}
-.modal-cerrar::after{
-	content:"X";
-}
+
 .modal-cuerpo{
     overflow:auto;
     position: relative;

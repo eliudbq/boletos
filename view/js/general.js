@@ -5,8 +5,8 @@ class Formulario{
 			a[i].childNodes[0].nodeValue=`${a[i].childNodes[0].nodeValue}*`;
 		}
 	}
-	get_data(campos){
-		let o=[]; let faltantes=[]
+	get_data(campos,autoref){
+		let claves=[]; let valores=[]; let faltantes=[]
 		$.each(campos, function (i, elem) { 
 			let collection=$(`.${elem}`);
 			$.each(collection, function (ii, con){
@@ -16,7 +16,8 @@ class Formulario{
 					if(req=="si" && $(con).val()==""){
 						faltantes.push($(con).prop(`name`).substring(3));
 					}else{
-						o[$(con).prop(`name`).substring(3)]=$(con).val();
+						valores.push($(con).val());
+						claves.push($(con).prop(`name`).substring(3));
 					}
 				}else{
 					if ($(con).prop(`name`).substring(0,3)=="chk"){
@@ -29,19 +30,41 @@ class Formulario{
 				}
 			});
 		});
-		return {paq:o, err:faltantes};
+		return {route:[$("form").prop("name")], action:[autoref.id], keys:claves, written:valores, err:faltantes};
 	}
 	public_empty(faltantes){
+		$(`.message`).remove();
 		if(faltantes!=""){
-			show_message(`debe rellanar los siguientes campos <br> ${faltantes.join("<br>")}`);
-			throw 'elementos vacios';
+			$(`body`).append(`
+				<div class='message'>
+					<button type="button" class="close"></button>
+					<div class='message-head'>Solicitud de informacióm</div>
+					<div class='message-body'>					
+						debe rellanar los siguientes campos <br> ${faltantes.join("<br>")}
+					</div>
+				</div>`);
+			throw "ejecución detenida por datos vacios";
 		}
 	}
 	show_message(message){
-		$(`body`).append(`<div class='message'>${message}<div/>`);
+		$(`body`).append(`<div class='message-body'>${message}<div/>`);
 		setTimeout(function(){
 			$(`.message`).remove();
 		},4000);
+	}
+	sent_data(datos){
+		$.ajax({
+			type: "POST",
+			Cache:false,
+			//contentType: "application/json; charset=utf-8",
+			//dataType: "json",
+			url: `controller/${datos.route}_controller.php`,
+			data: {'action':JSON.stringify(datos.action) ,'claves': JSON.stringify(datos.keys), 'valores': JSON.stringify(datos.written),}
+		}).done(function(resp){
+			console.log(resp);
+		}).fail(function(jqXHR, textStatus, errorThrown){
+			validate.validate_ajax(jqXHR, textStatus, errorThrown)
+		});
 	}
 }
 class Validate{
@@ -78,9 +101,16 @@ class Validate{
 		}
 		return t;
 	}
+	validate_ajax( jqXHR, textStatus, errorThrown) {
+		if (jqXHR.status === 0) {alert(`Conexión fallida: error en la red 0`);}
+		else if (jqXHR.status == 404) {alert(`controlador o modelo no encontrado 404`);}
+		else if (jqXHR.status == 500) {alert('Error 500 de servidor');}
+		else if (textStatus === 'parsererror') {alert(`falla en el parset jsom`);}
+		else if (textStatus === 'timeout') {alert(`tiempo maximo excedido`);}
+		else if (textStatus === 'abort') {alert('ajax abotado');}
+		else{alert('error desconocido:\n' + jqXHR.responseText);}
+	}
 }
-
-
 /*$(function(){
 	modal 		=new Modal;
 	formulario 	=new Formulario;

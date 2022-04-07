@@ -12,11 +12,9 @@
             </ul>
         </header>
         <section>
-            <form action="#">
-                <?php
-                    include_once($page);
-                ?>
-            </form>
+            <?php
+                include_once($page);
+            ?>
         </section>
         <footer>
             <time></time>
