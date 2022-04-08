@@ -7,6 +7,5 @@
             foreach ($propiedades as $clave => $cont){
                 $modelo->$cont=$valor[$clave];
             }
-            print("desde el controlador grande");
         }
     }

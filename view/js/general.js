@@ -32,6 +32,8 @@ class Formulario{
 		});
 		return {route:[$("form").prop("name")], action:[autoref.id], keys:claves, written:valores, err:faltantes};
 	}
+	get_table_horizont(){}
+	get_table_vertic(){}
 	public_empty(faltantes){
 		$(`.message`).remove();
 		if(faltantes!=""){
@@ -59,10 +61,10 @@ class Formulario{
 			url: `controller/${datos.route}_controller.php`,
 			data: {'action':JSON.stringify(datos.action) ,'claves': JSON.stringify(datos.keys), 'valores': JSON.stringify(datos.written),}
 		}).done(function(resp){
-			return resp;
+			alert(resp);
 		}).fail(function(jqXHR, textStatus){
-			if (jqXHR.status === 0) {alert(`Conexión fallida: error en la red 0`);}
-			else if (jqXHR.status == 404) {alert(`controlador o modelo no encontrado 404`);}
+			if (jqXHR.status === 0) {alert(`Conexión fallida: error en la red (0)`);}
+			else if (jqXHR.status == 404) {alert(`controlador o modelo no encontrado (404)`);}
 			else if (jqXHR.status == 500) {alert('Error 500 de servidor');}
 			else if (textStatus === 'parsererror') {alert(`falla en el parset jsom`);}
 			else if (textStatus === 'timeout') {alert(`tiempo maximo excedido`);}
