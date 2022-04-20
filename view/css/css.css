@@ -17,7 +17,7 @@ input[type = "checkbox" ], input[type = "radio"]{
 	margin-right		: 10px;}
 textarea{resize : none;}
 a{text-decoration: none;}
-input{
+select,input{
     display: inline-block;
 	width: 98%;
     height: calc(1em + 1rem);

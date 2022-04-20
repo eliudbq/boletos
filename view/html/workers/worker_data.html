@@ -1,7 +1,92 @@
 <script src="view\js\user\user.js"></script>
-<form action="#" name="user">
-    <div class="column20 content-align-center">
-        <div class="titulo"></div>
-        <label for=""><input type="search" name="" id=""></label>
+<form action="#" name="user" class="column20 content-align-center">
+    <div class="column16">
+        <div class="titulo">DATOS DE PERSONAL</div>
+        <label class="column6 content-align-left label-primary">
+            Titulo
+            <input type="search" name="titulo" id="titulo"/>
+        </label>
+        <label class="column6 content-align-left label-primary">
+            user
+            <input type="search" name="user" id="user"/>
+        </label>
+        <label class="column6 content-align-left label-primary">
+            password
+            <input type="search" name="password" id="password"/>
+        </label>
+        <label class="column6 content-align-left label-primary">
+            user_name
+            <input type="search" name="user_name" id="user_name"/>
+        </label>
+        <label class="column6 content-align-left label-primary">
+            user_cedula
+            <input type="search" name="user_cedula" id="user_cedula">
+        </label>
+        <label class="column6 content-align-left label-primary">
+            user_area
+            <input type="search" name="user_area" id="user_area">
+        </label>
+        <label class="column6 content-align-left label-primary">
+            estado
+            <input type="search" name="estado" id="estado">
+        </label>
+        <label class="column6 content-align-left label-primary">
+            municipio
+            <input type="search" name="municipio" id="municipio">
+        </label>
+        <label class="column6 content-align-left label-primary">
+            direccion
+            <input type="search" name="direccion" id="direccion">
+        </label>
+        <label class="column6 content-align-left label-primary">
+            telefono
+            <input type="search" name="telefono" id="telefono">
+        </label>
+        <label class="column6 content-align-left label-primary">
+            email<input type="search" name="email" id="email">
+        </label>
+        <label class="column6 content-align-left label-primary">
+            talla_camisa<input type="search" name="talla_camisa" id="talla_camisa">
+        </label>
+        <label class="column6 content-align-left label-primary">
+            talla_pantalon<input type="search" name="talla_pantalon" id="talla_pantalon">
+        </label>
+        <label class="column6 content-align-left label-primary">
+            talla_calsado<input type="search" name="talla_calsado" id="talla_calsado"></label> 
+        <label class="column6 content-align-left label-primary">
+            Fecha de Nacimiento
+            <input type="search" name="" id="fecha_nacimiento">
+        </label>  
+        <label class="column6 content-align-left label-primary">
+            Fecha de Ingreso:
+            <input type="search" name="" id="fecha_ingreso">
+        </label>
+        <label for="" class="column6 content-align-left label-primary">
+            Tipo de Sangre
+            <select name="tipo_de_sangre" id="tipo_de_sangre">
+                <option value="">--</option>
+                <option value="ORH+">O+</option>
+                <option value="ORH-">O-</option>
+                <option value="ARH+">A+</option>
+                <option value="ARH-">A-</option>
+                <option value="BRH+">B+</option>
+                <option value="BRH-">B-</option>
+                <option value="ABRH-">AB+</option>
+                <option value="ABRH+">AB-</option>
+            </select>
+        </label>
+        <label for="" class="column6 content-align-left label-primary">
+            Licencia de Conducir
+            <select name="licencia_de_conducir" id="licencia_de_conducir">
+                <option value="NO">--</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+            </select>
+        </label>
     </div>
+    <div>
+        <button>Aceptar</button><button id="btncancel_info_worker">Cancelar</button></div>
 </form>

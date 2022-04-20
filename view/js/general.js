@@ -1,29 +1,48 @@
+var RESPUESTA="";
 class Formulario{
-	required_marker(){
+	required_marker()
+	{
 		let a=$(`.required-mark`);
-		for(let i=0;i<a.length;i++){
+		for(let i=0;i<a.length;i++)
+		{
 			a[i].childNodes[0].nodeValue=`${a[i].childNodes[0].nodeValue}*`;
 		}
 	}
-	get_data(campos,autoref){
+	get_data(campos,autoref)
+	{
 		let claves=[]; let valores=[]; let faltantes=[]
-		$.each(campos, function (i, elem) { 
+		$.each(campos, function (i, elem)
+		{ 
 			let collection=$(`.${elem}`);
-			$.each(collection, function (ii, con){
+			$.each(collection, function (ii, con)
+			{
 				let req="no";
-				if($(con).hasClass('required')){req="si";}
-				if ($(con).prop(`name`).substring(0,3)=="val"){
-					if(req=="si" && $(con).val()==""){
+				if($(con).hasClass('required'))
+				{
+					req="si";
+				}
+				if ($(con).prop(`name`).substring(0,3)=="val")
+				{
+					if(req=="si" && $(con).val()=="")
+					{
 						faltantes.push($(con).prop(`name`).substring(3));
-					}else{
+					}
+					else
+					{
 						valores.push($(con).val());
 						claves.push($(con).prop(`name`).substring(3));
 					}
-				}else{
-					if ($(con).prop(`name`).substring(0,3)=="chk"){
+				}
+				else
+				{
+					if ($(con).prop(`name`).substring(0,3)=="chk")
+					{
 						console.log("construya esta opcion");
-					}else{
-						if ($(con).prop(`name`).substring(0,3)=="txt"){
+					}
+					else
+					{
+						if ($(con).prop(`name`).substring(0,3)=="txt")
+						{
 							console.log("construya esta opcion");
 						}
 					}
@@ -32,11 +51,11 @@ class Formulario{
 		});
 		return {route:[$("form").prop("name")], action:[autoref.id], keys:claves, written:valores, err:faltantes};
 	}
-	get_table_horizont(){}
-	get_table_vertic(){}
-	public_empty(faltantes){
+	public_empty(faltantes)
+	{
 		$(`.message`).remove();
-		if(faltantes!=""){
+		if(faltantes!="")
+		{
 			$(`body`).append(`
 				<div class='message'>
 					<button type="button" class="close"></button>
@@ -48,57 +67,70 @@ class Formulario{
 			throw "ejecución detenida por datos vacios";
 		}
 	}
-	show_message(message){
+	show_message(message)
+	{
 		$(`body`).append(`<div class='message-body'>${message}<div/>`);
-		setTimeout(function(){
+		setTimeout(function()
+		{
 			$(`.message`).remove();
 		},4000);
 	}
-	sent_data(datos){
+	sent_data(datos)
+	{
 		$.ajax({
 			type: "POST",
 			Cache:false,
+			async:false,
 			url: `controller/${datos.route}_controller.php`,
-			data: {'action':JSON.stringify(datos.action) ,'claves': JSON.stringify(datos.keys), 'valores': JSON.stringify(datos.written),}
-		}).done(function(resp){
-			alert(resp);
-		}).fail(function(jqXHR, textStatus){
-			if (jqXHR.status === 0) {alert(`Conexión fallida: error en la red (0)`);}
-			else if (jqXHR.status == 404) {alert(`controlador o modelo no encontrado (404)`);}
-			else if (jqXHR.status == 500) {alert('Error 500 de servidor');}
-			else if (textStatus === 'parsererror') {alert(`falla en el parset jsom`);}
-			else if (textStatus === 'timeout') {alert(`tiempo maximo excedido`);}
-			else if (textStatus === 'abort') {alert('ajax abotado');}
-			else{alert('error desconocido:\n' + jqXHR.responseText);}
+			data: {'action':JSON.stringify(datos.action) ,'claves': JSON.stringify(datos.keys), 'valores': JSON.stringify(datos.written),},
+			//contentType: "application/json",
+  			dataType: "json",
+		})
+		.done(function(resp){
+			RESPUESTA=resp;
+		})
+		.fail(function(jqXHR, textStatus){
+			console.log("sent_datos");
+			validate.error_ajax(jqXHR, textStatus)
 		});
 	}
 }
 class Validate{
-	only_letter(e){
+	only_letter(e)
+	{
 		key = e.keyCode || e.which;
 		if((key!=32)&&(key<65 || key>90)&&(key<97 || key>122)&&(key!=209)&&(key!=241)&&(key!=225)&&(key!=223)&&(key!=237)&&(key!=243)&&(key!=250)&&(key!=193)&&(key!=201)&&(key!=205)&&(key!=211)&&(key!=218)&&(key!=46)&&(key!=44))
 		{return false;}
 	}
-	only_number(n){
+	only_number(n)
+	{
 		key = n.keyCode || n.which;
 		if(((key<48) || (key>57))&&(key!=44)){return false;}
 	}
-	for_ema(a){//validar el formato para un campo tipo email
-		if(a.value.length>0){
+	for_ema(a)
+	{//validar el formato para un campo tipo email
+		if(a.value.length>0)
+		{
 			c=0; b=a.value.split("");
 			for(i=0;i<b.length;i++){if(b[i]=="@"){c++;}}
-			if((b[b.length-3]==".")||(b[b.length-4]==".")){c++;}
-			if(c!=2){
+			if((b[b.length-3]==".")||(b[b.length-4]=="."))
+			{
+				c++;
+			}
+			if(c!=2)
+			{
 				mensaje("debe ingresar un correo électronico valido","observacion");
 				a.focus();
 			}
 		}
 	}
-	minusculas(a){
+	minusculas(a)
+	{
 		a=a.toLowerCase();
 		return a;
 	}
-	mayini(e){//mayuscula inicial de cada palabra en un texto
+	mayini(e)
+	{//mayuscula inicial de cada palabra en un texto
 		a=e.split("");
 		t="";
 		for(i=0;i<a.length;i++){
@@ -106,6 +138,15 @@ class Validate{
 			else{t+=(a[i]).toLowerCase();}
 		}
 		return t;
+	}
+	error_ajax(jqXHR, textStatus){
+		if (jqXHR.status === 0) {alert(`Conexión fallida: error en la red (0)`);}
+		else if (jqXHR.status == 404) {alert(`controlador o modelo no encontrado (404)`);}
+		else if (jqXHR.status == 500) {alert('Error 500 de servidor');}
+		else if (textStatus === 'parsererror') {alert(`falla en el parset jsom`);}
+		else if (textStatus === 'timeout') {alert(`tiempo maximo excedido`);}
+		else if (textStatus === 'abort') {alert('ajax abotado');}
+		else{alert('error desconocido:\n' + jqXHR.responseText);}
 	}
 }
 /*$(function(){

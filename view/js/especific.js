@@ -37,5 +37,46 @@ $(function(){
 	$("input").prop({"autocomplete":"off"});
   formulario 	=new Formulario;
   validate    =new Validate;
-  formulario.required_marker();
+  navegacion  =new Navigate;
+  navegacion.inicio();
 });
+class Navigate
+{
+  inicio()
+  {
+    $.ajax({
+      type: "POST",
+      Cache:false,
+      async:false,
+      url: `controller/routes.php`,
+      data:{"action":JSON.stringify(["inicio"])},
+      datatype:"html",
+    })
+    .done(function(resp){
+      $("section").html(resp);
+      formulario.required_marker();
+    })
+    .fail(function(jqXHR, textStatus){
+			validate.error_ajax(jqXHR, textStatus);
+      console.log("inicio");
+		});
+  }
+  propio(cedula)
+  {
+    $.ajax({
+      type: "POST",
+      Cache:false,
+      async:false,
+      url: `controller/routes.php`,
+      data:{'cedula':cedula,"action":JSON.stringify(["propio"])},
+      datatype:"html",
+    })
+    .done(function(resp){
+      $("section").html(resp);
+    })
+    .fail(function(jqXHR, textStatus){
+      console.log("propio");
+			validate.error_ajax(jqXHR, textStatus)
+		});
+  }
+}

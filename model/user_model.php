@@ -27,14 +27,11 @@
         protected $fecha_ingreso;
         protected $tipo_de_sangre;
         protected $licencia_de_conducir;
-        protected function login()
+        public function login()
         {
-            $sql="SELECT us.id_user, us.user_name, us.user_cedula, us.user_area, acc.menu
-                FROM $this->tb_users as us LEFT JOIN $this->tb_session as acc ON us.id_user = acc.id_user; 
-                WHERE user='$this->user' and password='$this->password'";
-            print($sql);die();
-            $conteo=$this->capturar($sql);
-            print_r($conteo);
+            $sql="SELECT us.id_user, us.password, us.user, us.user_name, us.user_cedula, us.user_area, acc.menu FROM $this->tb_users as us LEFT JOIN $this->tb_session as acc ON us.id_user = acc.id_user WHERE user='$this->user' and password='$this->password'";
+            $captura=$this->capturar($sql);
+            print(json_encode($captura));
         }
         function obtener_usuario_base_de_datos(){$this->login();}
     }
